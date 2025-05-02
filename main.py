@@ -505,7 +505,7 @@ def delrage(message: types.Message):
             bot.reply_to(message, "Вы ЗАБАНЕНЫ!")
             return
         constitut = load("constitution.json")
-        if data['users'][i]['president'] or i == USERY:
+        if data['users'][i]['status']['president'] or i == USERY:
             if message.text[9:]:
                 if isnum(message.text[9:]):
                     try:
@@ -542,16 +542,16 @@ def viewrage(message: types.Message):
             bot.reply_to(message, "Вы ЗАБАНЕНЫ!")
             return
         constitut = load("constitution.json")
-        if message.text[9:]:
-            if isnum(message.text[9:]):
+        if message.text[10:]:
+            if isnum(message.text[10:]):
                 try:
-                    bot.reply_to(message, constitut[message.text[9:]]['text'])
+                    bot.reply_to(message, constitut[message.text[10:]]['text'])
                 except:
                     bot.reply_to(message, "Такого номера страницы не существует!")
             else:
                 yes = ''
                 for name, value in constitut.items():
-                    if value['name'] == message.text[9:]:
+                    if value['name'] == message.text[10:]:
                         yes = name
                         break
                 if yes:
@@ -573,7 +573,7 @@ def rages(message: types.Message):
             return
 
         constitut = load("constitution.json")
-        text = f"----- Страницы конституции -----"
+        text = f"----- Страницы конституции -----\n"
         for name, value in constitut.items():
             text += f"{name}. {value['name']}"
         bot.reply_to(message, text)
@@ -589,16 +589,16 @@ def add(message: types.Message):
             bot.reply_to(message, "Вы ЗАБАНЕНЫ!")
             return
         constitut = load("constitution.json")
-        if data['users'][i]['president'] or i == USERY:
-            if message.text[9:]:
-                args = message.text[9:].split("; ")
+        if data['users'][i]['status']['president'] or i == USERY:
+            if message.text[5:]:
+                args = message.text[5:].split("; ")
                 if len(args) != 2:
                     bot.reply_to(message, "Аргументов должно быть 2!")
                     return
 
                 yes = ''
                 for name, value in constitut.items():
-                    if value['name'] == message.text[9:]:
+                    if value['name'] == message.text[5:]:
                         yes = name
                         break
                 if yes:
@@ -636,5 +636,7 @@ def ibtfunc(message: types.Message):
 while True:
     try:
         bot.polling(none_stop=True)
+    except Exception as e:
+        print(f"An error occurred: {e.__class__.__name__}: {e}")
     except Exception as e:
         print(f"An error occurred: {e.__class__.__name__}: {e}")

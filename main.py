@@ -7,7 +7,7 @@ import time
 import IBT_ai as ibt
 
 bot = telebot.TeleBot(token)
-USERY = "ЗДЕСЬ_ВАШ_ИД_ТГ"
+USERY = "5680374695"
 
 def load(filename):
     with open(filename, 'r', encoding="utf-8") as file:
@@ -575,7 +575,7 @@ def rages(message: types.Message):
         constitut = load("constitution.json")
         text = f"----- Страницы конституции -----\n"
         for name, value in constitut.items():
-            text += f"{name}. {value['name']}"
+            text += f"{name}. {value['name']}\n"
         bot.reply_to(message, text)
     else:
         bot.reply_to(message, "Зарегистрируйтесь!")
@@ -636,7 +636,5 @@ def ibtfunc(message: types.Message):
 while True:
     try:
         bot.polling(none_stop=True)
-    except Exception as e:
-        print(f"An error occurred: {e.__class__.__name__}: {e}")
     except Exception as e:
         print(f"An error occurred: {e.__class__.__name__}: {e}")

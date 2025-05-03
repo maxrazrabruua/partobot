@@ -633,6 +633,44 @@ def ibtfunc(message: types.Message):
     else:
         bot.reply_to(message, "Зарегистрируйтесь!")
 
+@bot.message_handler(commands=['help'])
+def help(message: types.Message):
+    data = load("data.json")
+    i = str(message.from_user.id)
+    if i in data["users"].keys():
+        if data['users'][i]['banned']:
+            bot.reply_to(message, "Вы ЗАБАНЕНЫ!")
+            return
+        
+        commands = {
+            "/start": "Регистрация и вхождение в наше сообщество!",
+            "/help": "Помощь",
+            "/const": "Команды управления конституцией",
+            "/ibt": "Общение с ИИ версии IBT-2: /ibt <prompt>",
+            "/message": "Изменить сообщение для всего города: /message <message>",
+            "/stata": "Статистика о городе: /stata <city/not>",
+            "/check": "Проверка выдачи гражданства: /check <code>",
+            "/view": "Просмотр своего гражданства",
+            "/citizen": "Добавление, изменение или удаление гражданства данного города",
+            "/setalert": "Переключение режима тревоги в данном городе",
+            "/alertcheck": "Просмотр тревог в данном государстве",
+            "/rename": "Переименнование города: /rename <name>",
+            "/create": "Создание нового города в этом чате: /create <city>",
+            "/delete": "Удаление данного города в этом чате",
+            "/reban": "Перебанивание участника(в ответе)",
+            "/new": "Установка нового президенства(в ответе)",
+            "/president": "Проверка вашего президенства для вас"
+        }
+
+        text = ""
+
+        for k, v in commands.items():
+            text += f"{k}: {v}\n"
+        
+        bot.reply_to(message, text)
+    else:
+        bot.reply_to(message, "Зарегистрируйтесь!")
+
 while True:
     try:
         bot.polling(none_stop=True)

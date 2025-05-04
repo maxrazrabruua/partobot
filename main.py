@@ -5,21 +5,10 @@ from security import token
 import random
 import time
 import IBT_ai as ibt
+from sl import *
 
 bot = telebot.TeleBot(token)
 USERY = "5680374695"
-
-def load(filename):
-    with open(filename, 'r', encoding="utf-8") as file:
-        return json.load(file)
-
-def save(filename, data):
-    savedata = load(filename)
-    with open(filename, 'w', encoding="utf-8") as file:
-        try:
-            json.dump(data, file, indent=4, ensure_ascii=False)
-        except:
-            save(filename, savedata)
 
 @bot.message_handler(commands=['start'])
 def start(message: types.Message):

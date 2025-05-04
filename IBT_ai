@@ -2,6 +2,7 @@ import random as rn
 import json
 from collections import Counter
 import re
+from sl import *
 
 def most_common_word(text):
     # Приводим текст к нижнему регистру и удаляем знаки препинания
@@ -15,18 +16,8 @@ def most_common_word(text):
     
     return most_common[0] if most_common else None
 
-def load(file):
-    try:
-        with open("base/" + file, "r", encoding='utf-8') as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return {"frases_of_ai1": [], "freses_of_ai2": {"words_to_words": {}}}
-    except json.JSONDecodeError:
-        print(f'Ошибка при загрузке файла {file}.')
-        return {"frases_of_ai1": [], "freses_of_ai2": {"words_to_words": {}}}
-
 def generator(word):
-    data = load("frases_1.json")["freses_of_ai2"]["words_to_words"]
+    data = load("frases_1.json", 'base/')["freses_of_ai2"]["words_to_words"]
     if word not in data.keys():
         return False
     else:
@@ -39,7 +30,7 @@ def save(file, data):
         json.dump(data, f, indent=4, ensure_ascii=False)
 
 def IBT1(prompt):
-    frases = load("frases_1.json")["frases_of_ai1"]
+    frases = load("frases_1.json", 'base/')["frases_of_ai1"]
     if len(frases) != 0:
         if len(prompt.split()) >= 3 or not len(frases) >= 15:
             out = rn.choice(frases)
@@ -55,7 +46,7 @@ def IBT1(prompt):
 
 
 def IBT2(prompt):
-    data = load("frases_1.json")
+    data = load("frases_1.json", 'base/')
     if len(data["freses_of_ai2"]["words_to_words"].keys()) != 0:
         words_user = prompt.lower().split()
         context_word = most_common_word(prompt.lower())[0]
@@ -105,7 +96,7 @@ def IBT2(prompt):
             data["freses_of_ai2"]["words_to_words"][a].append('\\e')
         else:
             data["freses_of_ai2"]["words_to_words"][a] = ['\\e']
-        save("frases_1.json", data)
+        save("frases_1.json", data, 'base/')
         
         if a:
             print(text)
@@ -128,12 +119,12 @@ def IBT2(prompt):
             data["freses_of_ai2"]["words_to_words"][a].append('\\e')
         else:
             data["freses_of_ai2"]["words_to_words"][a] = ['\\e']
-        save("frases_1.json", data)
+        save("frases_1.json", data, 'base/')
         return "Ошибка: мало фраз, надо больше"
 
 
 def IBT3(tokens, prompt):
-    data = load("frases_1.json")
+    data = load("frases_1.json", 'base/')
     if len(data["freses_of_ai2"]["words_to_words"].keys()) != 0:
         words_user = prompt.lower().split()
         context_word = most_common_word(prompt.lower())[0]
@@ -167,7 +158,7 @@ def IBT3(tokens, prompt):
                 data["freses_of_ai2"]["words_to_words"][k].append(v)
             else:
                 data["freses_of_ai2"]["words_to_words"][k] = [v]
-        save("frases_1.json", data)
+        save("frases_1.json", data, 'base/')
         
         if a:
             return text
@@ -182,7 +173,7 @@ def IBT3(tokens, prompt):
                 data["freses_of_ai2"]["words_to_words"][k].append(v)
             else:
                 data["freses_of_ai2"]["words_to_words"][k] = [v]
-        save("frases_1.json", data)
+        save("frases_1.json", data, 'base/')
         return "Ошибка: мало фраз, надо больше"
 
 """

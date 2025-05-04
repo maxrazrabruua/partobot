@@ -25,10 +25,6 @@ def generator(word):
             data[word]
         )
 
-def save(file, data):
-    with open("base/" + file, 'w', encoding='utf-8') as f:
-        json.dump(data, f, indent=4, ensure_ascii=False)
-
 def IBT1(prompt):
     frases = load("frases_1.json", 'base/')["frases_of_ai1"]
     if len(frases) != 0:
